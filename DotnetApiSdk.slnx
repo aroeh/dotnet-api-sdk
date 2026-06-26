@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Dotnet.API.Example/Dotnet.API.Example.csproj" />
+  <Project Path="Dotnet.API.SDK/Dotnet.API.SDK.csproj" Id="294254d8-007c-4d4b-a835-d8ed07db1f45" />
+</Solution>
