@@ -5,6 +5,9 @@
 /// </summary>
 public record MongoDbOptions
 {
+    /// <summary>
+    /// Default Key for configuration values
+    /// </summary>
     public const string ConfigKey = "Api:Settings:MongoDb";
 
     /// <summary>

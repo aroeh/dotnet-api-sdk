@@ -1,6 +1,7 @@
 <Solution>
   <Project Path="Dotnet.API.Example/Dotnet.API.Example.csproj" />
   <Project Path="Dotnet.API.MongoDb.SDK/Dotnet.API.MongoDb.SDK.csproj" Id="4440bda9-ed9c-42ec-8cd9-4f3b4277e64a" />
+  <Project Path="Dotnet.API.MSSQL.SDK/Dotnet.API.MSSQL.SDK.csproj" Id="f9a7d565-92b9-4411-a3d3-071a14e780af" />
   <Project Path="Dotnet.API.SDK.Models/Dotnet.API.SDK.Models.csproj" Id="d1859f99-840c-4bec-8f74-9265026bd344" />
   <Project Path="Dotnet.API.SDK/Dotnet.API.SDK.csproj" Id="294254d8-007c-4d4b-a835-d8ed07db1f45" />
 </Solution>

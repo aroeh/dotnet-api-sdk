@@ -14,7 +14,7 @@ namespace Dotnet.API.MongoDb.SDK.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Configure and add MongoDb options in the application service collection instance
+    /// Configure and add MongoDb options to the application service collection instance.
     /// </summary>
     /// <param name="services">Application services collection</param>
     /// <param name="config">Application configuration properties</param>
@@ -26,19 +26,16 @@ public static class ServiceCollectionExtensions
             ? config.GetRequiredSection(MongoDbOptions.ConfigKey)
             : config.GetRequiredSection(configKey);
 
-        var options = configSettings.Get<MongoDbOptions>();
+        var options = configSettings.Get<MongoDbOptions>() ?? throw new Exception("Options for MongoDb were not found."); ;
 
-        if (options is not null)
+        if (string.IsNullOrWhiteSpace(options.ConnectionString))
         {
-            if (string.IsNullOrWhiteSpace(options.ConnectionString))
-            {
-                throw new Exception("MongoDb Connection string is missing");
-            }
+            throw new Exception("MongoDb Connection string is missing");
+        }
 
-            if (string.IsNullOrWhiteSpace(options.DatabaseName))
-            {
-                throw new Exception("MongoDb database name is missing");
-            }
+        if (string.IsNullOrWhiteSpace(options.DatabaseName))
+        {
+            throw new Exception("MongoDb database name is missing");
         }
 
         services.Configure<MongoDbOptions>(configSettings);
