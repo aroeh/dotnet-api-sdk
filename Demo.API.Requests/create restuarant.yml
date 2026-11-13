@@ -1,0 +1,47 @@
+info:
+  name: create restuarant
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{host}}/api/restuarants?api-version={{api-version}}"
+  params:
+    - name: api-version
+      value: "{{api-version}}"
+      type: query
+  body:
+    type: json
+    data: |-
+      {
+          "name": "Test",
+          "cuisineType": "Test",
+          "website": "https://www.google.com/",
+          "phone": "1112223333",
+          "address": {
+              "street": "123 Test Street",
+              "city": "Somewhere",
+              "state": "KY",
+              "zipCode": "12345",
+              "country": "United States"
+          },
+        "businessHours": [
+          {
+            "dayOfWeek": "Monday",
+            "openTime": "08:00",
+            "closeTime": "17:00"
+          },
+          {
+            "dayOfWeek": "Tuesday",
+            "openTime": "08:00",
+            "closeTime": "17:00"
+          }
+        ]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

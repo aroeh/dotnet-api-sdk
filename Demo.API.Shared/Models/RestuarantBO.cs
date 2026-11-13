@@ -1,0 +1,12 @@
+﻿namespace Demo.API.Shared.Models;
+
+public record RestuarantBO
+(
+    string Id,
+    string Name,
+    string CuisineType,
+    Uri? Website,
+    string Phone,
+    LocationBO Address,
+    List<RestuarantBusinessHourBO> BusinessHours
+);

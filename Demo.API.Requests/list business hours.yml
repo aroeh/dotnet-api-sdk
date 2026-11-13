@@ -1,0 +1,19 @@
+info:
+  name: list business hours
+  type: http
+  seq: 9
+
+http:
+  method: GET
+  url: "{{host}}/api/restuarants/{restuarantId}/business-hours?api-version={{api-version}}"
+  params:
+    - name: api-version
+      value: "{{api-version}}"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

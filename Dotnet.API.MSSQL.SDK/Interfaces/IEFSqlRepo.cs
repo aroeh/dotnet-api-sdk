@@ -36,7 +36,6 @@ public interface IEFSqlRepo<TContext, TEntity>
     /// <returns><see cref="TransactionResult"/> results of the Create operation</returns>
     Task<TransactionResult> CreateManyAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken);
 
-
     Task<IReadOnlyList<TEntity>> QueryAsync(IQueryable<TEntity> where, CancellationToken cancellationToken);
 
     /// <summary>

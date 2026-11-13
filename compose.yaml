@@ -1,0 +1,32 @@
+# Podman compose file - same as docker-compose
+networks:
+  backend:
+
+services:
+  cache:
+    image: redis
+    container_name: redis-cache
+    networks:
+      - backend
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+
+  mongo:
+    image: mongo
+    container_name: mongo-data
+    restart: unless-stopped
+    networks:
+      - backend
+  
+  demoapi:
+    image: ${DOCKER_REGISTRY-}demoapi
+    container_name: demo-api
+    networks:
+      - backend
+    restart: unless-stopped
+    build:
+      context: . # context at the root is the path containing the compose file
+      dockerfile: Demo.API/Dockerfile
+    depends_on:
+      - mongo

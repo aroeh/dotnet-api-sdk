@@ -1,15 +1,21 @@
+using Demo.API.Core.Extensions;
+using Demo.API.Infrastructure.MongoDb.Extensions;
 using Dotnet.API.SDK.Extensions;
+using Dotnet.API.MongoDb.SDK.Extensions;
 using Microsoft.AspNetCore.Http.Json;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Demo.API.Infrastructure.MongoDb.Documents;
 
-namespace Dotnet.API.Example;
+namespace Demo.API;
 
 public class Program
 {
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 
         /*
          * Reading configuration can be done 3 ways through the api sdk
@@ -49,6 +55,14 @@ public class Program
         // register a custom exception handler from the API
         //builder.Services.AddExceptionHandlerAndProblemDetails<CustomExceptionHandler>();
 
+        // register dependencies for core and infrastructure repos
+        builder.Services.AddCoreOrchestrations();
+        builder.Services.AddInfrastructureRepos();
+
+        // add SDK dependencies
+        builder.Services.ConfigureMongoDbOptions(builder.Configuration, "RestuarantApi:Settings:MongoDb");
+        builder.Services.AddScopedMongoDbRepo<RestuarantDocument>("restuarants");
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -61,6 +75,9 @@ public class Program
         app.UseExceptionHandler();
 
         app.UseHttpsRedirection();
+
+
+        // map the health check endpoint and setup a custom writer
 
         app.UseAuthorization();
 

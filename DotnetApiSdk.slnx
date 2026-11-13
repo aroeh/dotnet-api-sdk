@@ -1,5 +1,11 @@
 <Solution>
-  <Project Path="Dotnet.API.Example/Dotnet.API.Example.csproj" />
+  <Folder Name="/Demo and Examples/">
+    <Project Path="Demo.API.Core/Demo.API.Core.csproj" />
+    <Project Path="Demo.API.Infrastructure.MongoDb/Demo.API.Infrastructure.MongoDb.csproj" />
+    <Project Path="Demo.API.Models/Demo.API.Models.csproj" />
+    <Project Path="Demo.API.Shared/Demo.API.Shared.csproj" />
+    <Project Path="Demo.API/Demo.API.csproj" />
+  </Folder>
   <Project Path="Dotnet.API.MongoDb.SDK/Dotnet.API.MongoDb.SDK.csproj" Id="4440bda9-ed9c-42ec-8cd9-4f3b4277e64a" />
   <Project Path="Dotnet.API.MSSQL.SDK/Dotnet.API.MSSQL.SDK.csproj" Id="f9a7d565-92b9-4411-a3d3-071a14e780af" />
   <Project Path="Dotnet.API.SDK.Models/Dotnet.API.SDK.Models.csproj" Id="d1859f99-840c-4bec-8f74-9265026bd344" />

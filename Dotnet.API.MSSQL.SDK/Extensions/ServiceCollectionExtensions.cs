@@ -51,11 +51,26 @@ public static class ServiceCollectionExtensions
     /// <typeparam name="TEntity">Data entity to register with the EFSqlRepo repo.</typeparam>
     /// <param name="services">Application services collection</param>
     /// <returns>Application services collection</returns>
-    public static IServiceCollection AddScopedSqlRepo<TContext, TEntity>(this IServiceCollection services)
+    public static IServiceCollection AddScopedEFSqlRepo<TContext, TEntity>(this IServiceCollection services)
         where TContext : DbContext
         where TEntity : EntityBase
     {
         services.AddScoped<IEFSqlRepo<TContext, TEntity>, EFSqlRepo<TContext, TEntity>>();
+        return services;
+    }
+
+    /// <summary>
+    /// Adds a Transient EFSqlRepo repo instance to the service collection
+    /// </summary>
+    /// <typeparam name="TContext"><see cref="DbContext"/> class instance to register with the EFSqlRepo repo.</typeparam>
+    /// <typeparam name="TEntity">Data entity to register with the EFSqlRepo repo.</typeparam>
+    /// <param name="services">Application services collection</param>
+    /// <returns>Application services collection</returns>
+    public static IServiceCollection AddTransientEFSqlRepo<TContext, TEntity>(this IServiceCollection services)
+        where TContext : DbContext
+        where TEntity : EntityBase
+    {
+        services.AddTransient<IEFSqlRepo<TContext, TEntity>, EFSqlRepo<TContext, TEntity>>();
         return services;
     }
 
