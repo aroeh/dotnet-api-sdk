@@ -1,4 +1,4 @@
-﻿namespace Dotnet.API.SDK.Models;
+﻿namespace Dotnet.API.SDK.Options;
 
 public record AppConfigOptions
 {

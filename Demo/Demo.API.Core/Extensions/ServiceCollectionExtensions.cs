@@ -1,5 +1,5 @@
 ﻿using Demo.API.Core.Interfaces;
-using Dotnet.API.Core.Example.Orchestrations;
+using Demo.API.Core.Orchestrations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Demo.API.Core.Extensions;

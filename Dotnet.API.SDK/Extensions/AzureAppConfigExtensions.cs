@@ -1,4 +1,4 @@
-﻿using Dotnet.API.SDK.Models;
+﻿using Dotnet.API.SDK.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
 using Microsoft.Extensions.DependencyInjection;

@@ -9,8 +9,6 @@ services:
     networks:
       - backend
     restart: unless-stopped
-    ports:
-      - 6379:6379
 
   mongo:
     image: mongo
@@ -27,6 +25,7 @@ services:
     restart: unless-stopped
     build:
       context: . # context at the root is the path containing the compose file
-      dockerfile: Demo.API/Dockerfile
+      dockerfile: Demo/Demo.API/Dockerfile
     depends_on:
       - mongo
+      - cache

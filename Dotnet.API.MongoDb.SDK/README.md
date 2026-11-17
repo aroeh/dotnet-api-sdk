@@ -98,7 +98,7 @@ builder.Services.AddScoped<IMyRepo, MyRepo>();
 ```csharp
 using Dotnet.API.MongoDb.SDK.Interfaces;
 
-namespace Demo.Restuarants.Infrastructure.MongoDb.Repos;
+namespace MyApp.AppNamespace;
 
 public class MyRepo
 (

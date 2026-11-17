@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Dotnet.API.MongoDb.SDK\Dotnet.API.MongoDb.SDK.csproj" />
+    <ProjectReference Include="..\..\Dotnet.API.SDK.Models\Dotnet.API.SDK.Models.csproj" />
     <ProjectReference Include="..\Demo.API.Shared\Demo.API.Shared.csproj" />
-    <ProjectReference Include="..\Dotnet.API.MongoDb.SDK\Dotnet.API.MongoDb.SDK.csproj" />
-    <ProjectReference Include="..\Dotnet.API.SDK.Models\Dotnet.API.SDK.Models.csproj" />
   </ItemGroup>
 
 </Project>

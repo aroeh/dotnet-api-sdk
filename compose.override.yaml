@@ -1,4 +1,8 @@
 services:
+  cache:
+    ports:
+      - 6379:6379
+
   mongo:
     ports:
       - 27017:27017

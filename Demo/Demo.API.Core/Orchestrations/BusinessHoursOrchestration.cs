@@ -7,7 +7,7 @@ using Dotnet.API.SDK.Models;
 using Dotnet.API.SDK.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace Dotnet.API.Core.Example.Orchestrations;
+namespace Demo.API.Core.Orchestrations;
 
 public class BusinessHoursOrchestration(ILogger<BusinessHoursOrchestration> logger, IRestuarantRepo repo) : IBusinessHoursOrchestration
 {

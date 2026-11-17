@@ -2,17 +2,19 @@
 using Demo.API.Core.Interfaces;
 using Demo.API.Infrastructure.MongoDb.Interfaces;
 using Demo.API.Shared.Models;
+using Dotnet.API.Redis.SDK.Interfaces;
 using Dotnet.API.SDK.Exceptions;
 using Dotnet.API.SDK.Models;
 using Dotnet.API.SDK.Utils;
 using Microsoft.Extensions.Logging;
 
-namespace Dotnet.API.Core.Example.Orchestrations;
+namespace Demo.API.Core.Orchestrations;
 
-public class RestuarantOrchestration(ILogger<RestuarantOrchestration> logger, IRestuarantRepo repo) : IRestuarantOrchestration
+public class RestuarantOrchestration(ILogger<RestuarantOrchestration> logger, IRestuarantRepo repo, IRedisRepo redis) : IRestuarantOrchestration
 {
     private readonly ILogger<RestuarantOrchestration> _logger = logger;
     private readonly IRestuarantRepo _repo = repo;
+    private readonly IRedisRepo _redis = redis;
 
     /// <summary>
     /// List restuarants
@@ -35,7 +37,20 @@ public class RestuarantOrchestration(ILogger<RestuarantOrchestration> logger, IR
     public async Task<RestuarantBO?> GetRestuarantAsync(string id, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Getting restuarant by id");
-        return await _repo.GetRestuarantAsync(id, cancellationToken);
+
+        RestuarantBO? cache = await _redis.GetCacheValueAsync<RestuarantBO>(id, cancellationToken);
+        if (cache is not null)
+        {
+            return cache;
+        }
+
+        RestuarantBO? restuarant = await _repo.GetRestuarantAsync(id, cancellationToken);
+        if (restuarant is not null)
+        {
+            await _redis.AddCacheValueAsync(id, restuarant, cancellationToken);
+        }
+
+        return restuarant;
     }
 
     /// <summary>
@@ -59,7 +74,9 @@ public class RestuarantOrchestration(ILogger<RestuarantOrchestration> logger, IR
             }
         }
 
-        return await _repo.CreateRestuarantAsync(restuarant, cancellationToken);
+        RestuarantBO newRestuarant = await _repo.CreateRestuarantAsync(restuarant, cancellationToken);
+        await _redis.AddCacheValueAsync(newRestuarant.Id, newRestuarant, TimeSpan.FromMinutes(5), cancellationToken);
+        return newRestuarant;
     }
 
     /// <summary>
@@ -94,6 +111,7 @@ public class RestuarantOrchestration(ILogger<RestuarantOrchestration> logger, IR
         _ = await GetRestuarantAsync(id, cancellationToken) ?? throw new NotFoundException("Restuarant does not exist.  Unable to update.", id);
 
         _logger.LogInformation("Updating restuarant");
+        await _redis.RemoveCacheValueAsync(id, cancellationToken);
         return await _repo.UpdateRestuarantAsync(id, request, cancellationToken);
     }
 
@@ -109,6 +127,7 @@ public class RestuarantOrchestration(ILogger<RestuarantOrchestration> logger, IR
         _ = await GetRestuarantAsync(id, cancellationToken) ?? throw new NotFoundException("Restuarant does not exist.  Unable to update.", id);
 
         _logger.LogInformation("Updating restuarant");
+        await _redis.RemoveCacheValueAsync(id, cancellationToken);
         return await _repo.UpdateRestuarantLocationAsync(id, request, cancellationToken);
     }
 
@@ -121,6 +140,7 @@ public class RestuarantOrchestration(ILogger<RestuarantOrchestration> logger, IR
     public async Task<bool> RemoveRestuarantAsync(string id, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Removing restuarant");
+        await _redis.RemoveCacheValueAsync(id, cancellationToken);
         TransactionResult result = await _repo.RemoveRestuarantAsync(id, cancellationToken);
         return result.Success;
     }

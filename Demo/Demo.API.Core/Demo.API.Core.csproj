@@ -12,10 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Dotnet.API.Redis.SDK\Dotnet.API.Redis.SDK.csproj" />
+    <ProjectReference Include="..\..\Dotnet.API.SDK.Models\Dotnet.API.SDK.Models.csproj" />
+    <ProjectReference Include="..\..\Dotnet.API.SDK\Dotnet.API.SDK.csproj" />
     <ProjectReference Include="..\Demo.API.Infrastructure.MongoDb\Demo.API.Infrastructure.MongoDb.csproj" />
     <ProjectReference Include="..\Demo.API.Shared\Demo.API.Shared.csproj" />
-    <ProjectReference Include="..\Dotnet.API.SDK.Models\Dotnet.API.SDK.Models.csproj" />
-    <ProjectReference Include="..\Dotnet.API.SDK\Dotnet.API.SDK.csproj" />
   </ItemGroup>
 
 </Project>

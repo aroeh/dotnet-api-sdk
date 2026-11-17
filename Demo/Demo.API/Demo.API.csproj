@@ -13,12 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Dotnet.API.MongoDb.SDK\Dotnet.API.MongoDb.SDK.csproj" />
+    <ProjectReference Include="..\..\Dotnet.API.Redis.SDK\Dotnet.API.Redis.SDK.csproj" />
+    <ProjectReference Include="..\..\Dotnet.API.SDK.Models\Dotnet.API.SDK.Models.csproj" />
+    <ProjectReference Include="..\..\Dotnet.API.SDK\Dotnet.API.SDK.csproj" />
     <ProjectReference Include="..\Demo.API.Core\Demo.API.Core.csproj" />
     <ProjectReference Include="..\Demo.API.Infrastructure.MongoDb\Demo.API.Infrastructure.MongoDb.csproj" />
     <ProjectReference Include="..\Demo.API.Models\Demo.API.Models.csproj" />
-    <ProjectReference Include="..\Dotnet.API.MongoDb.SDK\Dotnet.API.MongoDb.SDK.csproj" />
-    <ProjectReference Include="..\Dotnet.API.SDK.Models\Dotnet.API.SDK.Models.csproj" />
-    <ProjectReference Include="..\Dotnet.API.SDK\Dotnet.API.SDK.csproj" />
   </ItemGroup>
 
 </Project>

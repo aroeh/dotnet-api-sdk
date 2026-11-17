@@ -1,11 +1,13 @@
 using Demo.API.Core.Extensions;
+using Demo.API.Infrastructure.MongoDb.Documents;
 using Demo.API.Infrastructure.MongoDb.Extensions;
-using Dotnet.API.SDK.Extensions;
 using Dotnet.API.MongoDb.SDK.Extensions;
+using Dotnet.API.MongoDb.SDK.Health;
+using Dotnet.API.Redis.SDK.Extensions;
+using Dotnet.API.SDK.Extensions;
 using Microsoft.AspNetCore.Http.Json;
 using System.Reflection;
 using System.Text.Json.Serialization;
-using Demo.API.Infrastructure.MongoDb.Documents;
 
 namespace Demo.API;
 
@@ -55,12 +57,20 @@ public class Program
         // register a custom exception handler from the API
         //builder.Services.AddExceptionHandlerAndProblemDetails<CustomExceptionHandler>();
 
+        // register health checks for the application
+        //builder.Services.AddHealthChecks()
+        //    .AddCheck<MongoDbHealthCheck>("Database");
+        
+        // use the sdk to register all specified types of health checks
+        builder.Services.AddHealth(typeof(MongoDbHealthCheck));
+
         // register dependencies for core and infrastructure repos
         builder.Services.AddCoreOrchestrations();
         builder.Services.AddInfrastructureRepos();
+        builder.Services.AddRedisScopedServices(builder.Configuration);
 
         // add SDK dependencies
-        builder.Services.ConfigureMongoDbOptions(builder.Configuration, "RestuarantApi:Settings:MongoDb");
+        builder.Services.ConfigureMongoDbOptions(builder.Configuration);
         builder.Services.AddScopedMongoDbRepo<RestuarantDocument>("restuarants");
 
         var app = builder.Build();
@@ -76,8 +86,8 @@ public class Program
 
         app.UseHttpsRedirection();
 
-
         // map the health check endpoint and setup a custom writer
+        app.UseHealthChecks(builder.Configuration);
 
         app.UseAuthorization();
 
