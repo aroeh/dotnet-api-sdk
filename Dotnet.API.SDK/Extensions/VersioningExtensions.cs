@@ -12,6 +12,8 @@ public static class VersioningExtensions
     /// <returns><see cref="IServiceCollection"/> service collection</returns>
     public static IServiceCollection AddVersioning(this IServiceCollection services, string? groupNameFormat = null)
     {
+        Console.Write("Adding API versioning...");
+
         services.AddApiVersioning(options =>
         {
             options.ReportApiVersions = true;
@@ -20,6 +22,8 @@ public static class VersioningExtensions
         {
             options.GroupNameFormat = string.IsNullOrWhiteSpace(groupNameFormat) ? "'v'VVV" : groupNameFormat;
         });
+
+        Console.WriteLine("Complete");
 
         return services;
     }

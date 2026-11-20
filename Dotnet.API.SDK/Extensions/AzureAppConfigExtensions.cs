@@ -19,6 +19,8 @@ public static class AzureAppConfigExtensions
     /// </remarks>
     public static void AddAzureAppConfigSettings(this ConfigurationManager configurationManager, HashSet<string> labelFilters, HashSet<string>? keyFilters = null)
     {
+        Console.Write("Adding Azure application configuration...");
+
         AppConfigOptions appConfigOptions = GetOptions(configurationManager);
 
         Dictionary<string, HashSet<string>> filters = BuildFilters(labelFilters, keyFilters);
@@ -39,6 +41,8 @@ public static class AzureAppConfigExtensions
                 }
             }
         });
+
+        Console.WriteLine("Complete");
     }
 
     private static AppConfigOptions GetOptions(IConfiguration config)

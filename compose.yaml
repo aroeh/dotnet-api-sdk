@@ -17,6 +17,13 @@ services:
     networks:
       - backend
   
+  otel-lgtm:
+    image: grafana/otel-lgtm #grafana/otel-lgtm:0.41.0@sha256:2e3290657f2f2a256c7a9175f097424a3ac5b54840741ace433e108e109348b6
+    container_name: grafana-otel-lgtm
+    restart: unless-stopped
+    networks:
+      - backend
+
   demoapi:
     image: ${DOCKER_REGISTRY-}demoapi
     container_name: demo-api
@@ -29,3 +36,4 @@ services:
     depends_on:
       - mongo
       - cache
+      - otel-lgtm

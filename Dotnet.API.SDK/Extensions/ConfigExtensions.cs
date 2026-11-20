@@ -15,12 +15,16 @@ public static class ConfigExtensions
     /// <param name="configurationManager">Application configuration manager instance</param>
     public static void AddConfigSettings(this ConfigurationManager configurationManager)
     {
+        Console.Write("Adding application configuration...");
+
         // Read appsettings files
         configurationManager
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json")
             .AddEnvironmentVariables();
+
+        Console.WriteLine("Complete");
     }
 
     /// <summary>
@@ -34,6 +38,8 @@ public static class ConfigExtensions
     /// <param name="configurationManager">Application configuration manager instance</param>
     public static void AddConfigSettings<TClass>(this ConfigurationManager configurationManager) where TClass : class
     {
+        Console.Write("Adding application configuration...");
+
         // Read appsettings files
         configurationManager
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -41,6 +47,8 @@ public static class ConfigExtensions
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json")
             .AddEnvironmentVariables()
             .AddUserSecrets<TClass>();
+
+        Console.WriteLine("Complete");
     }
 
     /// <summary>
@@ -54,6 +62,8 @@ public static class ConfigExtensions
     /// <param name="userSecretsAssembly">Assembly that contains the user secrets id</param>
     public static void AddConfigSettings(this ConfigurationManager configurationManager, Assembly userSecretsAssembly)
     {
+        Console.Write("Adding application configuration...");
+
         // Read appsettings files
         configurationManager
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -61,5 +71,7 @@ public static class ConfigExtensions
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json")
             .AddEnvironmentVariables()
             .AddUserSecrets(userSecretsAssembly);
+
+        Console.WriteLine("Complete");
     }
 }

@@ -18,9 +18,13 @@ public static class ServiceCollectionExtensions
     /// <exception cref="Exception">Exceptions are thrown if the ConnectionString or DatabaseName properties of options are null, empty, or whitespace values.</exception>
     public static void ConfigureRedisOptions(this IServiceCollection services, IConfiguration config, string? configKey = null)
     {
+        Console.Write("Adding Redis options...");
+
         var configSettings = GetRedisConfigSettings(config, configKey);
 
         services.Configure<RedisOptions>(configSettings);
+
+        Console.WriteLine("Complete");
     }
 
     /// <summary>
@@ -31,6 +35,8 @@ public static class ServiceCollectionExtensions
     /// <param name="configKey">Custom configuration key to retrieve options from app settings.  If <see langword="null"/> or empty, the value defaults to Api:Settings:Redis</param>
     public static void AddRedisConnectionMultiplexer(this IServiceCollection services, IConfiguration config, string? configKey = null)
     {
+        Console.Write("Adding Redis Connection Multiplexor...");
+
         var options = GetRedisOptions(config, configKey);
 
         var hostAndPort = $"{options.Host}:{options.Port}";
@@ -39,6 +45,8 @@ public static class ServiceCollectionExtensions
         var connectionMultiplexer = ConnectionMultiplexer.Connect(redisConfig);
 
         services.AddSingleton<IConnectionMultiplexer>(connectionMultiplexer);
+
+        Console.WriteLine("Complete");
     }
 
     /// <summary>
@@ -58,7 +66,9 @@ public static class ServiceCollectionExtensions
         services.ConfigureRedisOptions(config, configKey);
         services.AddRedisConnectionMultiplexer(config, configKey);
 
+        Console.Write("Adding Scoped RedisRepo...");
         services.AddScoped<IRedisRepo, RedisRepo>();
+        Console.WriteLine("Complete");
     }
 
     /// <summary>
@@ -78,7 +88,9 @@ public static class ServiceCollectionExtensions
         services.ConfigureRedisOptions(config, configKey);
         services.AddRedisConnectionMultiplexer(config, configKey);
 
+        Console.Write("Adding Transient RedisRepo...");
         services.AddTransient<IRedisRepo, RedisRepo>();
+        Console.WriteLine("Complete");
     }
 
     private static IConfigurationSection GetRedisConfigSettings(IConfiguration config, string? configKey = null)

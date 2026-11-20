@@ -3,6 +3,7 @@ using Demo.API.Infrastructure.MongoDb.Documents;
 using Demo.API.Infrastructure.MongoDb.Extensions;
 using Dotnet.API.MongoDb.SDK.Extensions;
 using Dotnet.API.MongoDb.SDK.Health;
+using Dotnet.API.OpenTelemetry.SDK.Extensions;
 using Dotnet.API.Redis.SDK.Extensions;
 using Dotnet.API.SDK.Extensions;
 using Microsoft.AspNetCore.Http.Json;
@@ -25,12 +26,14 @@ public class Program
          * 2. Read settings including user secrets with an assembly class - builder.Configuration.AddConfigSettings<Program>()
          * 3. read settings including user secrets with an assembly - builder.Configuration.AddConfigSettings(Assembly.GetExecutingAssembly())
          */
-        builder.Configuration.AddConfigSettings(Assembly.GetExecutingAssembly());
+        var assembly = Assembly.GetExecutingAssembly();
+        builder.Configuration.AddConfigSettings(assembly);
 
         // get additional app settings from Azure App Configuration
         builder.Configuration.AddAzureAppConfigSettings([builder.Environment.EnvironmentName]);
 
         // Add services to the container.
+        builder.AddAppOpenTelemetry(assembly);
 
         // Add API versioning to the controllers.  By default it is configured for query string versioning
         // and requires the query string param api-version on calls to the API.
@@ -74,6 +77,7 @@ public class Program
         builder.Services.AddScopedMongoDbRepo<RestuarantDocument>("restuarants");
 
         var app = builder.Build();
+        app.Logger.LogInformation("Building application...Complete");
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -93,6 +97,7 @@ public class Program
 
         app.MapControllers();
 
+        app.Logger.LogInformation("Running application");
         app.Run();
     }
 }

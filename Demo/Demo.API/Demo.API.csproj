@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Dotnet.API.MongoDb.SDK\Dotnet.API.MongoDb.SDK.csproj" />
+    <ProjectReference Include="..\..\Dotnet.API.OpenTelemetry.SDK\Dotnet.API.OpenTelemetry.SDK.csproj" />
     <ProjectReference Include="..\..\Dotnet.API.Redis.SDK\Dotnet.API.Redis.SDK.csproj" />
     <ProjectReference Include="..\..\Dotnet.API.SDK.Models\Dotnet.API.SDK.Models.csproj" />
     <ProjectReference Include="..\..\Dotnet.API.SDK\Dotnet.API.SDK.csproj" />

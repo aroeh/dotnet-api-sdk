@@ -10,6 +10,14 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
 
+  otel-lgtm:
+    ports:
+      - 3000:3000
+      - 4040:4040
+      - 4317:4317
+      - 4318:4318
+      - 9090:9090
+
   demoapi:
     ports:
       - 5017:80
@@ -17,5 +25,8 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - ASPNETCORE_ENVIRONMENT=Docker
       - AppConfiguration:ConnectionString=${APP_CONFIG}
+      - OTEL_EXPORTER_OTLP_ENDPOINT=${OTEL_ENDPOINT}
+      - OTEL_EXPORTER_OTLP_PROTOCOL=${OTEL_EXPORT_PROTOCOL}
+      - OTEL_METRIC_EXPORT_INTERVAL=5000 # so we don't have to wait 60s for metrics
     volumes:
       - ${USER_SECRETS_PATH}

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Logging;
 
 namespace Dotnet.API.SDK.Extensions;
 
@@ -18,6 +19,8 @@ public static class HealthCheckExtensions
     /// <exception cref="ArgumentException">Type exception if a parameter type is not a class, or is an abstract class, or does not implement IHealthCheck</exception>
     public static void AddHealth(this IServiceCollection services, params Type[] healthCheckTypes)
     {
+        Console.Write("Adding application health checks...");
+
         var healthCheckBuilder = services.AddHealthChecks();
 
         foreach (var healthCheckType in healthCheckTypes)
@@ -35,6 +38,8 @@ public static class HealthCheckExtensions
                 failureStatus: null,
                 tags: null));
         }
+
+        Console.WriteLine("Complete");
     }
 
     /// <summary>
@@ -49,6 +54,8 @@ public static class HealthCheckExtensions
     /// <exception cref="Exception">Exceptions are thrown if the Route property of options is a null, empty, or whitespace value.</exception>
     public static void UseHealthChecks(this WebApplication app, IConfiguration config, string? configKey = null)
     {
+        app.Logger.LogInformation("Preparing app health checks for use.");
+
         var configSettings = string.IsNullOrWhiteSpace(configKey)
             ? config.GetRequiredSection(ApiHealthCheckOptions.ConfigKey)
             : config.GetRequiredSection(configKey);
@@ -78,5 +85,7 @@ public static class HealthCheckExtensions
         {
             ResponseWriter = HealthCheckResponseWriter.WriteCustomHealthCheckResponse
         });
+
+        app.Logger.LogInformation("App health checks ready for use at route: {route}", route);
     }
 }

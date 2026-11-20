@@ -13,8 +13,12 @@ public static class ExceptionExtensions
     /// <returns><see cref="IServiceCollection"/> service collection</returns>
     public static IServiceCollection AddExceptionHandlerAndProblemDetails(this IServiceCollection services)
     {
+        Console.Write("Adding exception handler and problem details...");
+
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
+
+        Console.WriteLine("Complete");
 
         return services;
     }
@@ -26,8 +30,12 @@ public static class ExceptionExtensions
     /// <returns><see cref="IServiceCollection"/> service collection</returns>
     public static IServiceCollection AddExceptionHandlerAndProblemDetails<T>(this IServiceCollection services) where T : class, IExceptionHandler
     {
+        Console.Write("Adding exception handler and problem details...");
+
         services.AddExceptionHandler<T>();
         services.AddProblemDetails();
+
+        Console.WriteLine("Complete");
 
         return services;
     }

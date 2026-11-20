@@ -22,6 +22,8 @@ public static class ServiceCollectionExtensions
     /// <exception cref="Exception">Exceptions are thrown if the ConnectionString or DatabaseName properties of options are null, empty, or whitespace values.</exception>
     public static void ConfigureMongoDbOptions(this IServiceCollection services, IConfiguration config, string? configKey = null)
     {
+        Console.Write("Configuring MongoDB...");
+
         var configSettings = string.IsNullOrWhiteSpace(configKey)
             ? config.GetRequiredSection(MongoDbOptions.ConfigKey)
             : config.GetRequiredSection(configKey);
@@ -39,6 +41,8 @@ public static class ServiceCollectionExtensions
         }
 
         services.Configure<MongoDbOptions>(configSettings);
+
+        Console.WriteLine("Complete");
     }
 
     /// <summary>
@@ -49,12 +53,16 @@ public static class ServiceCollectionExtensions
     /// <param name="collectionName">Name of the MongoDb collection the repo will use</param>
     public static void AddScopedMongoDbRepo<TEntity>(this IServiceCollection services, string collectionName) where TEntity : class
     {
+        Console.Write($"Configuring Scoped MongoDB Repo for class {typeof(TEntity)}...");
+
         services.AddScoped<IMongoDbRepo<TEntity>, MongoDbRepo<TEntity>>(sp =>
         {
             ILogger<MongoDbRepo<TEntity>> logger = sp.GetRequiredService<ILogger<MongoDbRepo<TEntity>>>();
             IOptions<MongoDbOptions> options = sp.GetRequiredService<IOptions<MongoDbOptions>>();
             return new MongoDbRepo<TEntity>(logger, options, collectionName);
         });
+
+        Console.WriteLine("Complete");
     }
 
     /// <summary>
@@ -65,11 +73,15 @@ public static class ServiceCollectionExtensions
     /// <param name="collectionName">Name of the MongoDb collection the repo will use</param>
     public static void AddTransientMongoDbRepo<TEntity>(this IServiceCollection services, string collectionName) where TEntity : class
     {
+        Console.Write($"Configuring Transient MongoDB Repo for class {typeof(TEntity)}...");
+
         services.AddTransient<IMongoDbRepo<TEntity>, MongoDbRepo<TEntity>>(sp =>
         {
             ILogger<MongoDbRepo<TEntity>> logger = sp.GetRequiredService<ILogger<MongoDbRepo<TEntity>>>();
             IOptions<MongoDbOptions> options = sp.GetRequiredService<IOptions<MongoDbOptions>>();
             return new MongoDbRepo<TEntity>(logger, options, collectionName);
         });
+
+        Console.WriteLine("Complete");
     }
 }
