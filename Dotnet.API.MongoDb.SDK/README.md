@@ -102,11 +102,11 @@ namespace MyApp.AppNamespace;
 
 public class MyRepo
 (
-    ILogger<MyRepo> log,
+    ILogger<MyRepo> logger,
     IMongoDbRepo<MyDocument> mongoDbRepo
 ) : IMyRepo
 {
-    private readonly ILogger<MyRepo> _logger = log;
+    private readonly ILogger<MyRepo> _logger = logger;
     private readonly IMongoDbRepo<MyDocument> _mongoDbRepo = mongoDbRepo;
 
     // TODO: Repo methods go here...
