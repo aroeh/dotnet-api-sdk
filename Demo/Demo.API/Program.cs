@@ -6,6 +6,7 @@ using Dotnet.API.MongoDb.SDK.Health;
 using Dotnet.API.OpenTelemetry.SDK.Extensions;
 using Dotnet.API.Redis.SDK.Extensions;
 using Dotnet.API.SDK.Extensions;
+using Dotnet.API.SDK.Health;
 using Microsoft.AspNetCore.Http.Json;
 using System.Reflection;
 using System.Text.Json.Serialization;
@@ -63,9 +64,10 @@ public class Program
         // register health checks for the application
         //builder.Services.AddHealthChecks()
         //    .AddCheck<MongoDbHealthCheck>("Database");
-        
+
         // use the sdk to register all specified types of health checks
-        builder.Services.AddHealth(typeof(MongoDbHealthCheck));
+        builder.Services.AddHealth<StartupHealthCheck>("Startup", null, [ "ready" ]);
+        builder.Services.AddHealth<MongoDbHealthCheck>("MongoDb", null, ["db"]);
 
         // register dependencies for core and infrastructure repos
         builder.Services.AddCoreOrchestrations();

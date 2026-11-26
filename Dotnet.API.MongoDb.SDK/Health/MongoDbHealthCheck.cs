@@ -8,7 +8,6 @@ namespace Dotnet.API.MongoDb.SDK.Health;
 
 public class MongoDbHealthCheck(IOptions<MongoDbOptions> options) : IHealthCheck
 {
-
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken token = new())
     {
         try

@@ -222,64 +222,6 @@ Host: localhost:5017
 ```
 
 
-## Health Checks
-Health Checks are useful for determining the health of your API and any services that it depends on.  For observability it is common for APIs to provide a health check endpoint to provide health information for monitoring.
-
-Usage:
-On application startup, typically in Program.cs call the method with the builder Services.
-```csharp
-using Dotnet.API.SDK.Extensions;
-
-// register health checks using a custom class for a service
-builder.Services.AddHealth(typeof(MyCustomHealthCheck));
-
-var app = builder.Build();
-
-// map the health check endpoint and write responses using the HealthCheckResponseWriter middleware provided in the SDK
-app.UseHealthChecks(builder.Configuration);
-```
-
-Add a custom health check class
-```csharp
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System.Diagnostics;
-
-namespace MyAppNamespace;
-
-public class MyCustomHealthCheck : IHealthCheck
-{
-
-    public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken token = new())
-    {
-        try
-        {
-            // TODO: Write code used to get health results of your service
-
-            // TODO: Check the results to return health states
-            if (myService is available)
-            {
-                // TODO: check for service degraded condition
-                if (myService is available but not responding as expected)
-                {
-                    return HealthCheckResult.Degraded("MyService is Degraded", null, myServiceHealthResults.ToDictionary());
-                }
-
-                return HealthCheckResult.Healthy("MyService is Healthy", myServiceHealthResults.ToDictionary());
-            }
-
-            // TODO: Handle unhealthly condition
-            return HealthCheckResult.Unhealthy("MyService is Not Healthy", null, myServiceHealthResults.ToDictionary());
-        }
-        catch (Exception ex)
-        {
-            // TODO: Handle unhealthly condition
-            return HealthCheckResult.Unhealthy("MyService is Not Healthy", ex);
-        }
-    }
-}
-```
-
-
 ## PaginationQueryParameters
 The PaginationQueryParameters model is provided on the API SDK to provide a common model for accepting common pagination requests.  Page and PageSize are optional.  If used together with the PaginationQueryParametersBO model, the page and page size will default to 1 and 25 respectively.
 
